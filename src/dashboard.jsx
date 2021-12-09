@@ -1,10 +1,17 @@
 import React from "react"
+import Header from "./header";
+import Home from "./home";
+import Footer from "./footer";
 
 const Dashboard = () => {
-    console.log("asd")
-    return <div>
 
-    </div>
+    return(
+        <div>
+            <Header />
+            <Home />
+            <Footer />
+        </div>
+    )
 }
 
 export default Dashboard
