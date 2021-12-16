@@ -9,16 +9,9 @@ import useStyles from "./styles";
 
 const Footer = () => {
     const classes = useStyles()
-    const [value, setValue] = React.useState(0);
     return (
-        <Box sx={{ width: '100%', height: 233 }} className={classes.footer}>
-            <BottomNavigation
-                // showLabels
-                // value={value}
-                // onChange={(event, newValue) => {
-                //     setValue(newValue);
-                /*}}*/
-            >
+        <div className={classes.footer}>
+            <div>
                 <div className={classes.footerInfo}>
                     <div className={classes.footerBoxes}>
                         <h3 className={classes.footerInfoText}>ADDRESS</h3>
@@ -26,10 +19,10 @@ const Footer = () => {
                     </div>
                     <div className={classes.footerBoxes}>
                         <h3 className={classes.footerInfoText}>FOLLOW US VIA</h3>
-                        <InstagramIcon />
-                        <LinkedInIcon />
-                        <TwitterIcon />
-                        <FacebookIcon />
+                        <InstagramIcon className={classes.footerIcons} />
+                        <LinkedInIcon className={classes.footerIcons} />
+                        <TwitterIcon className={classes.footerIcons} />
+                        <FacebookIcon className={classes.footerIcons} />
                     </div>
                     <div className={classes.footerBoxes}>
                         <h3 className={classes.footerInfoText}>DESCRIPTION</h3>
@@ -37,11 +30,8 @@ const Footer = () => {
                             Lorem Ipsum is simply dummy text</p>
                     </div>
                 </div>
-                {/*<BottomNavigationAction label="Recents" icon={<RestoreIcon />} />*/}
-                {/*<BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />*/}
-                {/*<BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />*/}
-            </BottomNavigation>
-        </Box>
+            </div>
+        </div>
     );
 }
 export default Footer
