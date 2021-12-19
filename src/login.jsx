@@ -1,10 +1,8 @@
-import * as React from 'react';
+import React, {useEffect, useState} from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,9 +10,52 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+
 
 const Login = () => {
     const theme = createTheme();
+    const navigate = useNavigate()
+
+    const [user, setUser] = useState([])
+    const userData = {
+        email: '',
+        password: '',
+    }
+
+    const getUserData = (e, type) => {
+        switch (type) {
+            case "email":
+                userData.email = e.target.value
+                break;
+            case "password":
+                userData.password = e.target.value
+                break;
+            default:
+                break
+        }
+    }
+    const login = () => {
+        setUser([userData])
+        console.log(user)
+        // setUser([userData])
+    }
+    useEffect(() => {
+        if (user.length > 0) {
+            axios.post('http://localhost:8080/api/login', ...user).then(res => {
+                console.log(res)
+                navigate('/profile')
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    }, [user])
+    const switchToLogin = () => {
+        console.log(user)
+        // navigate('/register')
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -35,6 +76,7 @@ const Login = () => {
                     </Typography>
                     <Box component="form" noValidate sx={{ mt: 1 }}>
                         <TextField
+                            onBlur={(e) => getUserData(e, 'email')}
                             margin="normal"
                             required
                             fullWidth
@@ -45,6 +87,7 @@ const Login = () => {
                             autoFocus
                         />
                         <TextField
+                            onBlur={(e) => getUserData(e, 'password')}
                             margin="normal"
                             required
                             fullWidth
@@ -54,17 +97,14 @@ const Login = () => {
                             id="password"
                             autoComplete="current-password"
                         />
-                        <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
-                            label="Remember me"
-                        />
                         <Button
-                            type="submit"
+                            // type="submit"
                             fullWidth
+                            onClick={login}
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Sign In
+                            Login
                         </Button>
                         <Grid container>
                             <Grid item xs>
@@ -72,7 +112,7 @@ const Login = () => {
                                     Forgot password?
                                 </Link>
                             </Grid>
-                            <Grid item>
+                            <Grid item onClick={switchToLogin}>
                                 <Link href="#" variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>

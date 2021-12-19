@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,39 +10,43 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import useStyles from "./styles";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 
 const Register = () => {
     const theme = createTheme();
+    const navigate = useNavigate()
+
     const [data, setData] = useState([])
-    const newDateUser =  {
-        firstName: '',
-        lastName: '',
+    const newDateUser = {
+        firstname: '',
+        lastname: '',
         email: '',
         password: '',
-        confirmPassword: '',
+        password2: '',
+    }
+
+    const switchToRegister = () => {
+        navigate('/login')
     }
 
     const userData = (e, type) => {
-        // console.log(const value = e.target.value)
-        const value = e.target.value
         switch (type) {
-            case "firstName":
-                newDateUser.firstName = (e.target.value)
-                console.log(e.target.value)
+            case "firstname":
+                newDateUser.firstname = e.target.value
                 break;
-            case "lastName":
-                newDateUser.lastName = (e.target.value)
+            case "lastname":
+                newDateUser.lastname = e.target.value
                 break;
             case "email":
-                newDateUser.email = (e.target.value)
+                newDateUser.email = e.target.value
                 break;
             case "password":
-                newDateUser.password = (e.target.value)
+                newDateUser.password = e.target.value
                 break;
-            case "confirmPassword":
-                newDateUser.confirmPassword = (e.target.value)
+            case "password2":
+                newDateUser.password2 = e.target.value
                 break;
             default:
                 break
@@ -54,23 +56,23 @@ const Register = () => {
     }
 
     const singUp = () => {
-        setData([...data, newDateUser])
-        console.log(newDateUser)
-        console.log(data)
+        setData([newDateUser])
     }
+
+    useEffect(() => {
+        if (data.length > 0) {
+            axios.post('http://localhost:8080/api/register', ...data).then(res => {
+                console.log(res)
+                navigate('/login')
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    }, [data])
 
     const qwe = () => {
         console.log(data)
     }
-
-    useEffect(() => {
-        if (data) {
-            axios.post('http://localhost:8080/api/register', {...data}).then(res => {
-                    console.log(res)
-                }
-            )
-        }
-    }, [data]);
 
     return (
         <ThemeProvider theme={theme}>
@@ -94,24 +96,24 @@ const Register = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    onBlur={(e) => userData(e, "firstName")}
+                                    onBlur={(e) => userData(e, "firstname")}
                                     autoComplete="given-name"
-                                    name="firstName"
+                                    name="firstname"
                                     required
                                     fullWidth
-                                    id="firstName"
+                                    id="firstname"
                                     label="First Name"
                                     autoFocus
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    onBlur={(e) => userData(e, "lastName")}
+                                    onBlur={(e) => userData(e, "lastname")}
                                     required
                                     fullWidth
-                                    id="lastName"
+                                    id="lastname"
                                     label="Last Name"
-                                    name="lastName"
+                                    name="lastname"
                                     autoComplete="family-name"
                                 />
                             </Grid>
@@ -140,20 +142,14 @@ const Register = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    onBlur={(e) => userData(e, "confirmPassword")}
+                                    onBlur={(e) => userData(e, "password2")}
                                     required
                                     fullWidth
-                                    name="confirm-password"
+                                    name="password2"
                                     label="confirm-Password"
                                     type="password"
                                     id="password"
-                                    autoComplete="confirm-password"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
+                                    autoComplete="password2"
                                 />
                             </Grid>
                         </Grid>
@@ -167,7 +163,7 @@ const Register = () => {
                             Sign Up
                         </Button>
                         <Grid container justifyContent="flex-end">
-                            <Grid item>
+                            <Grid item onClick={switchToRegister}>
                                 <Link href="#" variant="body2" onClick={qwe}>
                                     Already have an account? Sign in
                                 </Link>
