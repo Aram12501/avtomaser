@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useContext} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,8 +8,10 @@ import useStyles from "./styles"
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+    // const { initialData } = useContext(Context)
     const classes = useStyles()
     const navigate = useNavigate()
+    // console.log(initialData.userLoggedIn)
 
     const switchToHome = () => {
         navigate('/')
@@ -21,6 +23,8 @@ const Header = () => {
         navigate('/register')
     }
 
+
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -30,6 +34,7 @@ const Header = () => {
                     </Typography>
                     <Button color="inherit" onClick={switchToRegister} >Register</Button>
                     <Button color="inherit" onClick={switchToLogin}>Login</Button>
+                    {/*<Button color="inherit" onClick={switchToLogin}>Login</Button>*/}
                 </Toolbar>
             </AppBar>
         </Box>

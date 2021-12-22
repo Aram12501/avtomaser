@@ -49,6 +49,9 @@ const useStyles = makeStyles({
         color: "white",
         marginLeft: 4
     },
+    userProfileText: {
+        textAlign: "center"
+    }
 });
 
 export default useStyles

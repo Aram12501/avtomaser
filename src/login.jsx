@@ -44,8 +44,11 @@ const Login = () => {
     useEffect(() => {
         if (user.length > 0) {
             axios.post('http://localhost:8080/api/login', ...user).then(res => {
-                console.log(res)
-                navigate('/profile')
+                console.log(res.data.token)
+                if (res.data.token) {
+                    localStorage.setItem('token', res.data.token)
+                    navigate('/profile')
+                }
             }).catch(err => {
                 console.log(err)
             })
